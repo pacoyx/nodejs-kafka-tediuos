@@ -1,0 +1,20 @@
+{
+  "name": "factelectbo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "dotenv": "^8.2.0",
+    "kafka-node": "^5.0.0",
+    "nodemon": "^2.0.3",
+    "tedious": "^8.2.0"
+  }
+}
