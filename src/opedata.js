@@ -8,6 +8,37 @@ obtenerListaDatosaFacturar = async function () {
     return await LeerDatosCuadre();
 }
 
+actualizarCorrelativo = async function () {
+    cnx = await ObtenerConexion();
+
+    request = new Request(
+        'exec dbo.FE_U_ACT_CORRE_COMPROBANTES;',
+        function (err, rowCount, rows) {
+            if (err) {
+                console.log('error update >> ', err);
+            } else {
+                console.log(rowCount + ' row(s) updated');
+                console.log('actualizacion exitosa');
+            }
+        });
+
+    return new Promise((resolve, reject) => {
+        request.on('requestCompleted', function () {
+            console.log('completo el request update >>>>>>>>>>>>>>>>>>');
+            cnx.close();
+            resolve(listaResp);
+        });
+
+        // request.addParameter('Name', TYPES.NVarChar, name);
+        // request.addParameter('Location', TYPES.NVarChar, location);
+
+        // Execute SQL statement
+        connection.execSql(request);
+
+    });
+}
+
+
 ObtenerConexion = async function () {
 
     return new Promise((resolve, reject) => {
@@ -53,7 +84,7 @@ LeerDatosCuadre = async function () {
     cnx = await ObtenerConexion();
 
     request = new Request(
-        'exec dbo.tmp_s_categoria_comercio;',
+        'exec dbo.FE_S_COMPROBANTES_AFACTURAR;',
         function (err, rowCount, rows) {
             if (err) {
                 console.log('Error read >> ', err);
@@ -69,7 +100,8 @@ LeerDatosCuadre = async function () {
         request.on('row', function (columns) {
             columns.forEach(function (column) {
                 if (column.value === null) {
-                    console.log('NULL');
+                    console.log('columna con valor NULL');
+                    result += "|";
                 } else {
                     result += column.value + "|";
                 }
@@ -87,11 +119,10 @@ LeerDatosCuadre = async function () {
 
         cnx.execSql(request);
 
-      
-
     });
 }
 
 module.exports.DA = {
-    obtenerListaDatosaFacturar
+    obtenerListaDatosaFacturar,
+    actualizarCorrelativo
 };

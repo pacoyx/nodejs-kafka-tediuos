@@ -35,6 +35,13 @@ IniciarOperacion = async function () {
 
     console.log('enviando ', payloads.length.toString() + ' objetos');
     enviarOperacionKafka.enviarOperacionKafka(payloads);
+
+    // actualizar numero correlativo en BD
+    console.log('actualizando correlativo...');
+    await dataAccess.DA.actualizarCorrelativo();
+
+    console.log('Termino Proceso ---- [OK]');
+
 }
 
 
